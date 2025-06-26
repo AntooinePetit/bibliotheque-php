@@ -15,7 +15,40 @@ require_once('../config/db.php');
 <body>
   <?php include('../public/header.php') ?>
 
-  <main></main>
+  <main>
+    <?php 
+    if($mode === 'lecture'): 
+      // Récupérer tous les auteurs dans la base de données
+      $stmt = $pdo->prepare('SELECT * FROM auteurs');
+      $stmt->execute();
+      $autors = $stmt->fetchAll();
+      ?>
+      <div class="table_component" role="region" tabindex="0">
+        <table>
+          <caption>Liste des auteurs</caption>
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Prenom</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          <?php
+          foreach($autors as $autor):
+          ?>
+            <tr>
+              <td><?= $autor['nom_auteur'] ?></td>
+              <td><?= $autor['prenom_auteur'] ?></td>
+              <td><a href="?id=<?= $autor['id_auteur'] ?>&mode=edition" class="edit">Modifier</a> | <a href="?id=<?= $autor['id_auteur']?>&mode=suppression" class="del">Supprimer</a></td>
+            </tr>
+          <?php endforeach; ?>
+          </tbody>
+        </table>
+        <a href="?mode=creation" class="ajout">Ajouter un auteur</a>
+      </div>
+    <?php endif; ?>
+  </main>
 
   <?php include('../public/footer.php') ?>
 </body>
