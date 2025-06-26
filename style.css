@@ -1,0 +1,116 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+  color: black;
+  transition: all 0.3s ease;
+}
+
+.container-1440 {
+  max-width: 1440px;
+  margin: auto;
+  padding: 15px;
+}
+
+/* Header */
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  nav {
+    ul {
+      display: flex;
+
+      a {
+        padding: 15px 20px;
+
+        &:hover {
+          background: black;
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+/* Footer */
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px 15px !important;
+}
+
+/* Index */
+
+#index {
+  main {
+    h1 {
+      margin-bottom: 25px;
+    }
+
+    p {
+      margin-bottom: 15px;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+
+      a:hover {
+        color: red;
+      }
+    }
+  }
+}
+
+/* Tableaux */
+
+.table_component {
+  margin: auto;
+  overflow: auto;
+  max-width: 1440px;
+}
+
+.table_component table {
+  border: 1px solid #dededf;
+  height: 100%;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 1px;
+  text-align: left;
+}
+
+.table_component caption {
+  caption-side: top;
+  text-align: left;
+}
+
+.table_component th {
+  border: 1px solid #dededf;
+  background-color: #eceff1;
+  color: #000000;
+  padding: 5px;
+}
+
+.table_component td {
+  border: 1px solid #dededf;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 5px;
+
+  .edit {
+    color: blue;
+  }
+
+  .del {
+    color: red;
+  }
+}
