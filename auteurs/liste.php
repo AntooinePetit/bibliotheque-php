@@ -16,6 +16,7 @@ require_once('../config/db.php');
   <?php include('../public/header.php') ?>
 
   <main>
+    <h1>Auteurs</h1>
     <?php 
     if($mode === 'lecture'): 
       // Récupérer tous les auteurs dans la base de données

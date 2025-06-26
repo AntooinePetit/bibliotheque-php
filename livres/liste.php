@@ -17,6 +17,7 @@ require_once('../config/db.php');
   <?php include('../public/header.php') ?>
 
   <main>
+    <h1>Livres</h1>
     <?php 
     if($mode === 'lecture'): 
       // Récupérer tous les membres dans la base de données
@@ -51,7 +52,7 @@ require_once('../config/db.php');
           <?php endforeach; ?>
           </tbody>
         </table>
-        <a href="?mode=creation" class="ajout">Ajouter un livre</a>
+        <a href="ajouter.php" class="ajout">Ajouter un livre</a>
       </div>
     <?php endif; ?>
   </main>
