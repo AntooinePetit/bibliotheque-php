@@ -1,6 +1,7 @@
 <?php
 // Lister les livres
 require_once('../config/db.php');
+require_once('../config/functions.php'); // Ajout de l'import des fonctions utilitaires
 ?>
 
 <!DOCTYPE html>
@@ -17,10 +18,8 @@ require_once('../config/db.php');
   <main>
     <h1>Livres</h1>
     <?php 
-    // Récupérer tous les membres dans la base de données
-    $stmt = $pdo->prepare('SELECT id_livre, titre, annee_publication, nom_auteur, prenom_auteur, nom_genre FROM livres LEFT JOIN auteurs on fk_id_auteur=id_auteur LEFT JOIN genres on fk_id_genre=id_genre ');
-    $stmt->execute();
-    $books = $stmt->fetchAll();
+    // Utilisation de la fonction utilitaire pour récupérer tous les livres
+    $books = getAllLivres($pdo);
     ?>
     <div class="table_component" role="region" tabindex="0">
       <table>

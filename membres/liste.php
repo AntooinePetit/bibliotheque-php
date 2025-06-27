@@ -1,8 +1,9 @@
 <?php
 $mode = $_GET['mode'] ?? 'lecture';
 
-// Lister les livres
+// Lister les membres
 require_once('../config/db.php');
+require_once('../config/functions.php'); // Ajout de l'import des fonctions utilitaires
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -19,10 +20,8 @@ require_once('../config/db.php');
     <h1>Membres</h1>
     <?php 
     if($mode === 'lecture'): 
-      // Récupérer tous les membres dans la base de données
-      $stmt = $pdo->prepare('SELECT * FROM membres');
-      $stmt->execute();
-      $members = $stmt->fetchAll();
+      // Utilisation de la fonction utilitaire pour récupérer tous les membres
+      $members = getAllMembres($pdo);
       ?>
       <div class="table_component" role="region" tabindex="0">
         <table>

@@ -1,6 +1,7 @@
 <?php
 // Lister les auteurs
 require_once('../config/db.php');
+require_once('../config/functions.php'); // Ajout de l'import des fonctions utilitaires
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -16,10 +17,8 @@ require_once('../config/db.php');
   <main>
     <h1>Auteurs</h1>
     <?php 
-    // Récupérer tous les auteurs dans la base de données
-    $stmt = $pdo->prepare('SELECT * FROM auteurs');
-    $stmt->execute();
-    $autors = $stmt->fetchAll();
+    // Utilisation de la fonction utilitaire pour récupérer tous les auteurs
+    $autors = getAllAuteurs($pdo);
     ?>
     <div class="table_component" role="region" tabindex="0">
       <table>

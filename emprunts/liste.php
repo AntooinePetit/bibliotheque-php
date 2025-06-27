@@ -1,6 +1,7 @@
 <?php
 // Lister les emprunts
 require_once('../config/db.php');
+require_once('../config/functions.php'); // Ajout de l'import des fonctions utilitaires
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -16,10 +17,8 @@ require_once('../config/db.php');
   <main>
     <h1>Emprunts</h1>
     <?php 
-    // Récupérer tous les emprunts dans la base de données
-    $stmt = $pdo->prepare('SELECT id_emprunt, date_emprunt, date_retour_prevu, date_retour_reel, titre, nom_membre, prenom_membre FROM emprunts LEFT JOIN livres on fk_id_livre=id_livre LEFT JOIN membres on fk_id_membre=id_membre ');
-    $stmt->execute();
-    $loans = $stmt->fetchAll();
+    // Utilisation de la fonction utilitaire pour récupérer tous les emprunts
+    $loans = getAllEmprunts($pdo);
     ?>
     <div class="table_component" role="region" tabindex="0">
       <table>
