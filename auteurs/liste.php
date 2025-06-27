@@ -1,7 +1,5 @@
 <?php
-$mode = $_GET['mode'] ?? 'lecture';
-
-// Lister les livres
+// Lister les auteurs
 require_once('../config/db.php');
 ?>
 <!DOCTYPE html>
@@ -18,37 +16,35 @@ require_once('../config/db.php');
   <main>
     <h1>Auteurs</h1>
     <?php 
-    if($mode === 'lecture'): 
-      // Récupérer tous les auteurs dans la base de données
-      $stmt = $pdo->prepare('SELECT * FROM auteurs');
-      $stmt->execute();
-      $autors = $stmt->fetchAll();
-      ?>
-      <div class="table_component" role="region" tabindex="0">
-        <table>
-          <caption>Liste des auteurs</caption>
-          <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Prenom</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-          <?php
-          foreach($autors as $autor):
-          ?>
-            <tr>
-              <td><?= $autor['nom_auteur'] ?></td>
-              <td><?= $autor['prenom_auteur'] ?></td>
-              <td><a href="?id=<?= $autor['id_auteur'] ?>&mode=edition" class="edit">Modifier</a> | <a href="?id=<?= $autor['id_auteur']?>&mode=suppression" class="del">Supprimer</a></td>
-            </tr>
-          <?php endforeach; ?>
-          </tbody>
-        </table>
-        <a href="?mode=creation" class="ajout">Ajouter un auteur</a>
-      </div>
-    <?php endif; ?>
+    // Récupérer tous les auteurs dans la base de données
+    $stmt = $pdo->prepare('SELECT * FROM auteurs');
+    $stmt->execute();
+    $autors = $stmt->fetchAll();
+    ?>
+    <div class="table_component" role="region" tabindex="0">
+      <table>
+        <caption>Liste des auteurs</caption>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php
+        foreach($autors as $autor):
+        ?>
+          <tr>
+            <td><?= $autor['nom_auteur'] ?></td>
+            <td><?= $autor['prenom_auteur'] ?></td>
+            <td><a href="modifier.php?id=<?= $autor['id_auteur'] ?>" class="edit">Modifier</a> | <a href="supprimer.php?id=<?= $autor['id_auteur']?>" class="del">Supprimer</a></td>
+          </tr>
+        <?php endforeach; ?>
+        </tbody>
+      </table>
+      <a href="ajouter.php" class="ajout">Ajouter un auteur</a>
+    </div>
   </main>
 
   <?php include('../public/footer.php') ?>
