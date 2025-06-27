@@ -30,7 +30,7 @@ require_once('../config/db.php');
             <th>Emprunté par</th>
             <th>Date d'emprunt</th>
             <th>Date de retour prévue</th>
-            <th>Date de retour réelle</th>
+            <th>Rendu</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -43,13 +43,16 @@ require_once('../config/db.php');
             <td><?= $loan['prenom_membre'].' '.$loan['nom_membre'] ?></td>
             <td><?= $loan['date_emprunt'] ?></td>
             <td><?= $loan['date_retour_prevu'] ?></td>
-            <td><?= $loan['date_retour_reel'] ?></td>
-            <td><a href="?id=<?= $loan['id_emprunt'] ?>&mode=edition" class="edit">Modifier</a> | <a href="?id=<?= $loan['id_emprunt']?>&mode=suppression" class="del">Supprimer</a></td>
+            <td><?= is_null($loan['date_retour_reel']) ? 'Non rendu' : 'Rendu' ?></td>
+            <td><a href="rendre.php?id=<?= $loan['id_emprunt'] ?>" class="edit"><?= is_null($loan['date_retour_reel']) ? 'Rendre' : '' ?></a></td>
           </tr>
         <?php endforeach; ?>
         </tbody>
       </table>
-      <a href="?mode=creation" class="ajout">Ajouter un emprunt</a>
+      <div class="next-step">
+        <a href="emprunter.php" class="ajout">Ajouter un emprunt</a>
+        <a href="historique.php" class="ajout">Historique des emprunts</a>
+      </div>
     </div>
   </main>
 
