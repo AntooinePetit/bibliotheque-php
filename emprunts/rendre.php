@@ -1,5 +1,6 @@
 <?php 
 require_once('../config/db.php'); 
+require_once('../config/functions.php'); // Ajout de l'import des fonctions utilitaires
 $endLoan = $_GET['endloan'] ?? '';
 $id = $_GET['id'] ?? 0;
 ?>
@@ -26,13 +27,9 @@ $id = $_GET['id'] ?? 0;
     endif;
 
     if($endLoan === 'oui' && $id > 0){
-      $stmt = $pdo->prepare('UPDATE emprunts SET date_retour_reel=:date_retour WHERE id_emprunt=:id');
-      $stmt->execute(array(
-        'date_retour' => date('Y-m-d'),
-        'id' => $id
-      ));
-
-      $retour = $stmt->rowCount() > 0 ? 'Emprunt terminé !' : "Erreur !";
+      // Utilisation de la fonction utilitaire pour rendre un emprunt
+      $result = rendreEmprunt($pdo, $id, date('Y-m-d'));
+      $retour = $result ? 'Emprunt terminé !' : "Erreur !";
       ?>
       <p class="retour <?= $retour === 'Emprunt terminé !' ? 'success' : 'error' ?>"><?= $retour ?></p>
       <div class="next-step">

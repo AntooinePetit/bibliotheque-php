@@ -1,5 +1,6 @@
 <?php 
 require_once('../config/db.php'); 
+require_once('../config/functions.php'); // Ajout de l'import des fonctions utilitaires
 $delete = $_GET['delete'] ?? '';
 $id = $_GET['id'] ?? 0;
 ?>
@@ -26,12 +27,9 @@ $id = $_GET['id'] ?? 0;
     endif;
 
     if($id > 0 && $delete === 'delete'):
-      $stmt = $pdo->prepare('DELETE FROM membres WHERE id_membre=:id');
-      $stmt->execute(array(
-        'id' => $id
-      ));
-      
-      $retour = $stmt->rowCount() > 0 ? 'Membre supprimé !' : "Erreur de suppresion !";
+      // Utilisation de la fonction utilitaire pour supprimer un membre
+      $result = supprimerMembre($pdo, $id);
+      $retour = $result ? 'Membre supprimé !' : "Erreur de suppresion !";
       ?>
       <p class="retour <?= $retour === 'Membre supprimé !' ? 'success' : 'error' ?>"><?= $retour ?></p>
       <div class="next-step">

@@ -1,5 +1,6 @@
 <?php 
 require_once('../config/db.php'); 
+require_once('../config/functions.php'); // Ajout de l'import des fonctions utilitaires
 $ajout = $_GET['ajout'] ?? '';
 ?>
 <!DOCTYPE html>
@@ -46,24 +47,16 @@ $ajout = $_GET['ajout'] ?? '';
         <?php die();
       endif;
 
-      $stmt = $pdo->prepare('INSERT INTO membres(nom_membre, prenom_membre, email, date_inscription) VALUES(:nom, :prenom, :email, :dateinscription)');
-      $stmt->execute(array(
-        'nom' => $nom,
-        'prenom' => $prenom,
-        'email' => $email,
-        'dateinscription' => date('Y-m-d')
-      ));
-
-      $retour = $stmt->rowCount() > 0 ? 'Membre ajouté !' : "Erreur d'ajout !";
+      // Utilisation de la fonction utilitaire pour ajouter un membre
+      $result = ajouterMembre($pdo, $nom, $prenom, $email, date('Y-m-d'));
+      $retour = $result ? 'Membre ajouté !' : "Erreur d'ajout !";
     ?>
       <p class="retour <?= $retour === 'Membre ajouté !' ? 'success' : 'error' ?>"><?= $retour ?></p>
       <div class="next-step">
         <a href="liste.php">Retourner à la liste des membres.</a>
-        <a href="ajouter.php">Ajouter un autre membre.</a>
+        <a href="ajouter.php">Ajouter un autre membre</a>
       </div>
-    <?php
-    endif; // Fin if ajout === 'oui'
-    ?>
+    <?php endif; // Fin if ajout === 'oui' ?>
   </main>
 
   <?php include_once('../public/footer.php'); ?>

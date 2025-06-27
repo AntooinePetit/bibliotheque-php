@@ -1,5 +1,6 @@
 <?php 
 require_once('../config/db.php'); 
+require_once('../config/functions.php'); // Ajout de l'import des fonctions utilitaires
 $delete = $_GET['delete'] ?? '';
 $id = $_GET['id'] ?? 0;
 ?>
@@ -26,12 +27,9 @@ $id = $_GET['id'] ?? 0;
     endif;
 
     if($id > 0 && $delete === 'delete'):
-      $stmt = $pdo->prepare('DELETE FROM auteurs WHERE id_auteur=:id');
-      $stmt->execute(array(
-        'id' => $id
-      ));
-      
-      $retour = $stmt->rowCount() > 0 ? 'Auteur supprimé !' : "Erreur de suppresion !";
+      // Utilisation de la fonction utilitaire pour supprimer un auteur
+      $result = supprimerAuteur($pdo, $id);
+      $retour = $result ? 'Auteur supprimé !' : "Erreur de suppresion !";
       ?>
       <p class="retour <?= $retour === 'Auteur supprimé !' ? 'success' : 'error' ?>"><?= $retour ?></p>
       <div class="next-step">

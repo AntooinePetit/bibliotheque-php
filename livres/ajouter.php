@@ -1,5 +1,6 @@
 <?php 
 require_once('../config/db.php'); 
+require_once('../config/functions.php'); // Ajout de l'import des fonctions utilitaires
 $ajout = $_GET['ajout'] ?? '';
 ?>
 <!DOCTYPE html>
@@ -27,9 +28,7 @@ $ajout = $_GET['ajout'] ?? '';
       <label for="auteur">Auteur : </label>
       <select name="auteur" id="auteur">
         <?php 
-        $stmt = $pdo->prepare('SELECT * FROM auteurs');
-        $stmt->execute();
-        $auteurs = $stmt->fetchAll();
+        $auteurs = getAllAuteurs($pdo); // Utilisation de la fonction utilitaire
         foreach($auteurs as $auteur):
         ?>
           <option value="<?= $auteur['id_auteur']?>"><?= $auteur['prenom_auteur'].' '.$auteur['nom_auteur'] ?></option>
@@ -68,26 +67,18 @@ $ajout = $_GET['ajout'] ?? '';
         <?php die();
       endif;
 
-      $stmt = $pdo->prepare('INSERT INTO livres(titre, annee_publication, fk_id_auteur, fk_id_genre) VALUES(:titre, :annee, :auteur, :genre)');
-      $stmt->execute(array(
-        'titre' => $titre,
-        'annee' => $anneePublication,
-        'auteur' => $idAuteur,
-        'genre' => $idGenre
-      ));
-
-      $retour = $stmt->rowCount() > 0 ? 'Livre ajouté !' : "Erreur d'ajout !";
+      // Utilisation de la fonction utilitaire pour ajouter un livre
+      $result = ajouterLivre($pdo, $titre, $anneePublication, $idAuteur, $idGenre);
+      $retour = $result ? 'Livre ajouté !' : "Erreur d'ajout !";
     ?>
       <p class="retour <?= $retour === 'Livre ajouté !' ? 'success' : 'error' ?>"><?= $retour ?></p>
       <div class="next-step">
         <a href="liste.php">Retourner à la liste des livres.</a>
-        <a href="ajouter.php">Ajouter un autre livre.</a>
+        <a href="ajouter.php">Ajouter un autre livre</a>
       </div>
-    <?php
-    endif; // Fin if ajout === 'oui'
-    ?>
+    <?php endif; ?>
   </main>
 
-  <?php include_once('../public/footer.php'); ?>
+  <?php include('../public/footer.php'); ?>
 </body>
 </html>

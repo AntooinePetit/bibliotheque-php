@@ -1,5 +1,6 @@
 <?php 
 require_once('../config/db.php'); 
+require_once('../config/functions.php'); // Ajout de l'import des fonctions utilitaires
 $edit = $_GET['edit'] ?? '';
 $id = $_GET['id'] ?? 0;
 ?>
@@ -44,16 +45,9 @@ $id = $_GET['id'] ?? 0;
         die();
       }
 
-      $stmt = $pdo->prepare('UPDATE livres SET titre=:titre, annee_publication=:annee, fk_id_auteur=:auteur, fk_id_genre=:genre WHERE id_livre=:id');
-      $stmt->execute(array(
-        'titre' => $nouveauTitre,
-        'annee' => $nouvelleAnnee,
-        'auteur' => $nouvelAuteur,
-        'genre' => $nouveauGenre,
-        'id' => $id
-      ));
-
-      $retour = $stmt->rowCount() > 0 ? 'Livre modifié !' : "Erreur de modification !";
+      // Utilisation de la fonction utilitaire pour modifier un livre
+      $result = modifierLivre($pdo, $id, $nouveauTitre, $nouvelleAnnee, $nouvelAuteur, $nouveauGenre);
+      $retour = $result ? 'Livre modifié !' : "Erreur de modification !";
       ?>
       <p class="retour <?= $retour === 'Livre modifié !' ? 'success' : 'error' ?>"><?= $retour ?></p>
       <div class="next-step">
@@ -79,46 +73,16 @@ $id = $_GET['id'] ?? 0;
 
         <label for="auteur">Auteur : </label>
         <select name="auteur" id="auteur">
-          <?php 
-          $stmt = $pdo->prepare('SELECT * FROM auteurs');
-          $stmt->execute();
-          $auteurs = $stmt->fetchAll();
-          foreach($auteurs as $auteur){
-            if($auteur['id_auteur'] == $book['fk_id_auteur']){
-              ?> 
-              <option value="<?= $auteur['id_auteur'] ?>"><?= $auteur['prenom_auteur'].' '.$auteur['nom_auteur'] ?></option>
-              <?php
-            }
-          }
-          foreach($auteurs as $auteur):
-            if($auteur['id_auteur'] != $book['fk_id_auteur']){
-            ?>
-              <option value="<?= $auteur['id_auteur']?>"><?= $auteur['prenom_auteur'].' '.$auteur['nom_auteur'] ?></option>
-            <?php
-            }
-          endforeach; ?>
+          <?php $auteurs = getAllAuteurs($pdo); foreach($auteurs as $auteur): ?>
+            <option value="<?= $auteur['id_auteur']?>" <?= $auteur['id_auteur'] == $book['fk_id_auteur'] ? 'selected' : '' ?>><?= $auteur['prenom_auteur'].' '.$auteur['nom_auteur'] ?></option>
+          <?php endforeach; ?>
         </select>
 
         <label for="genre">Genre :</label>
         <select name="genre" id="genre">
-          <?php
-          $stmt = $pdo->prepare('SELECT * from genres');
-          $stmt->execute();
-          $genres = $stmt->fetchAll();
-          foreach($genres as $genre){
-            if($genre['id_genre'] == $book['fk_id_genre']){
-              ?>
-              <option value="<?= $genre['id_genre']?>"><?= $genre['nom_genre'] ?></option>
-              <?php
-            }
-          }
-          foreach($genres as $genre):
-            if($genre['id_genre'] != $book['fk_id_genre']){
-            ?>
-              <option value="<?= $genre['id_genre']?>"><?= $genre['nom_genre'] ?></option>
-            <?php 
-            }
-          endforeach; ?>
+          <?php $stmt = $pdo->prepare('SELECT * from genres'); $stmt->execute(); $genres = $stmt->fetchAll(); foreach($genres as $genre): ?>
+            <option value="<?= $genre['id_genre']?>" <?= $genre['id_genre'] == $book['fk_id_genre'] ? 'selected' : '' ?>><?= $genre['nom_genre'] ?></option>
+          <?php endforeach; ?>
         </select>
 
         <input type="submit" value="Modifier un livre">

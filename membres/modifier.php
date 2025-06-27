@@ -1,5 +1,6 @@
 <?php 
 require_once('../config/db.php'); 
+require_once('../config/functions.php'); // Ajout de l'import des fonctions utilitaires
 $edit = $_GET['edit'] ?? '';
 $id = $_GET['id'] ?? 0;
 ?>
@@ -43,15 +44,9 @@ $id = $_GET['id'] ?? 0;
         die();
       }
 
-      $stmt = $pdo->prepare('UPDATE membres SET nom_membre=:nom, prenom_membre=:prenom, email=:email WHERE id_membre=:id');
-      $stmt->execute(array(
-        'nom' => $nouveauNom,
-        'prenom' => $nouveauPrenom,
-        'email' => $nouvelEmail,
-        'id' => $id
-      ));
-
-      $retour = $stmt->rowCount() > 0 ? 'Membre modifié !' : "Erreur de modification !";
+      // Utilisation de la fonction utilitaire pour modifier un membre
+      $result = modifierMembre($pdo, $id, $nouveauNom, $nouveauPrenom, $nouvelEmail);
+      $retour = $result ? 'Membre modifié !' : "Erreur de modification !";
       ?>
       <p class="retour <?= $retour === 'Membre modifié !' ? 'success' : 'error' ?>"><?= $retour ?></p>
       <div class="next-step">

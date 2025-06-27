@@ -1,5 +1,6 @@
 <?php 
 require_once('../config/db.php'); 
+require_once('../config/functions.php'); // Ajout de l'import des fonctions utilitaires
 $ajout = $_GET['ajout'] ?? '';
 ?>
 <!DOCTYPE html>
@@ -42,22 +43,16 @@ $ajout = $_GET['ajout'] ?? '';
         <?php die();
       endif;
 
-      $stmt = $pdo->prepare('INSERT INTO auteurs(nom_auteur, prenom_auteur) VALUES(:nom, :prenom)');
-      $stmt->execute(array(
-        'nom' => $nom,
-        'prenom' => $prenom
-      ));
-
-      $retour = $stmt->rowCount() > 0 ? 'Auteur ajouté !' : "Erreur d'ajout !";
+      // Utilisation de la fonction utilitaire pour ajouter un auteur
+      $result = ajouterAuteur($pdo, $nom, $prenom);
+      $retour = $result ? 'Auteur ajouté !' : "Erreur d'ajout !";
     ?>
       <p class="retour <?= $retour === 'Auteur ajouté !' ? 'success' : 'error' ?>"><?= $retour ?></p>
       <div class="next-step">
         <a href="liste.php">Retourner à la liste des auteurs.</a>
-        <a href="ajouter.php">Ajouter un autre auteur.</a>
+        <a href="ajouter.php">Ajouter un autre auteur</a>
       </div>
-    <?php
-    endif; // Fin if ajout === 'oui'
-    ?>
+    <?php endif; // Fin if ajout === 'oui' ?>
   </main>
 
   <?php include_once('../public/footer.php'); ?>
