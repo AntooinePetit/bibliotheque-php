@@ -31,9 +31,9 @@ $id = $_GET['id'] ?? 0;
       $nouvelAuteur = $_POST['auteur'];
       $nouveauGenre = $_POST['genre'];
 
-      if(empty($nouveauTitre) || empty($nouvelAuteur) || empty($nouveauGenre)){
+      if(empty($nouveauTitre) || empty($nouvelAuteur) || empty($nouveauGenre) || strlen($nouvelleAnnee) != 4){
         ?>
-        <p class="retour error">Veuillez remplir au moins les champs de titre, auteur et genre !</p>
+        <p class="retour error">Veuillez remplir au moins les champs de titre, auteur et genre. L'année de publication doit faire exactement 4 caractères</p>
         <div class="next-step">
           <a href="liste.php">Retourner à la liste des livres.</a>
           <a href="modifier.php?id=<?=$id?>">Retourner à la modification du livre.</a>

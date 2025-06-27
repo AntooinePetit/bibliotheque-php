@@ -59,8 +59,8 @@ $ajout = $_GET['ajout'] ?? '';
       $idAuteur = $_POST['auteur'];
       $idGenre = $_POST['genre'];
 
-      if(empty($titre) || empty($idAuteur) || empty($idGenre)): ?>
-        <p class="retour error">Veuillez au moins remplir le titre, l'auteur et le genre.</p>
+      if(empty($titre) || empty($idAuteur) || empty($idGenre) || strlen($anneePublication) != 4): ?>
+        <p class="retour error">Veuillez au moins remplir le titre, l'auteur et le genre. L'année de publication doit contenir 4 caractères</p>
         <div class="next-step">
           <a href="liste.php">Retourner à la liste des livres.</a>
           <a href="ajouter.php">Réessayer d'ajouter un livre.</a>
