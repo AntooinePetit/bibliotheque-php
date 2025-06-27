@@ -50,7 +50,7 @@ require_once('../config/db.php');
           <?php endforeach; ?>
           </tbody>
         </table>
-        <a href="?mode=creation" class="ajout">Ajouter un membre</a>
+        <a href="ajouter.php" class="ajout">Ajouter un membre</a>
       </div>
     <?php endif; ?>
   </main>
