@@ -16,9 +16,10 @@
 
 h1 {
   margin-bottom: 25px;
+  padding: 15px;
 }
 
-main{
+main {
   max-width: 1440px;
   margin: auto;
 }
@@ -81,6 +82,20 @@ footer {
   margin: auto;
   overflow: auto;
   max-width: 1440px;
+  padding: 15px;
+
+  .ajout {
+    padding: 10px 20px;
+    border: 1px solid black;
+    width: fit-content;
+    display: block;
+    margin-top: 10px;
+
+    &:hover {
+      background: black;
+      color: white;
+    }
+  }
 }
 
 .table_component table {
@@ -118,4 +133,44 @@ footer {
   .del {
     color: red;
   }
+}
+
+/* Formulaires */
+
+form {
+  max-width: 340px;
+  margin: auto;
+  display: grid;
+
+  input,
+  select{
+    margin-bottom: 20px;
+    padding: 5px;
+  }
+}
+
+/* Validation d'action */
+
+.retour{
+  text-align: center;
+  margin-top: 50px;
+  font-size: 32px;
+  margin-bottom: 25px;
+}
+
+.success{
+  color: green;
+}
+
+.error{
+  color: red;
+}
+
+/* Prochaine étape */
+
+.next-step{
+  margin: auto;
+  max-width: 500px;
+  display: flex;
+  justify-content: space-between;
 }

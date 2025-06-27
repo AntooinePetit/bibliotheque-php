@@ -1,3 +1,7 @@
+<?php 
+require_once('../config/db.php'); 
+$ajout = $_GET['ajout'] ?? '';
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,12 +14,78 @@
   <?php include_once('../public/header.php'); ?>
   
   <main>
-    <form action="#" method="post">
+    <?php
+    if($ajout === ''):
+    ?>
+    <form action="?ajout=oui" method="post">
       <label for="titre">Titre :</label>
       <input type="text" name="titre" id="titre">
 
-      <label for=""></label>
+      <label for="annee">Année de publication :</label>
+      <input type="number" name="annee" id="annee">
+
+      <label for="auteur">Auteur : </label>
+      <select name="auteur" id="auteur">
+        <?php 
+        $stmt = $pdo->prepare('SELECT * FROM auteurs');
+        $stmt->execute();
+        $auteurs = $stmt->fetchAll();
+        foreach($auteurs as $auteur):
+        ?>
+          <option value="<?= $auteur['id_auteur']?>"><?= $auteur['prenom_auteur'].' '.$auteur['nom_auteur'] ?></option>
+        <?php endforeach; ?>
+      </select>
+
+      <label for="genre">Genre :</label>
+      <select name="genre" id="genre">
+        <?php
+        $stmt = $pdo->prepare('SELECT * from genres');
+        $stmt->execute();
+        $genres = $stmt->fetchAll();
+        foreach($genres as $genre):
+        ?>
+          <option value="<?= $genre['id_genre']?>"><?= $genre['nom_genre'] ?></option>
+        <?php endforeach; ?>
+      </select>
+
+      <input type="submit" value="Ajouter un livre">
     </form>
+    <?php
+    endif; // Fin if ajout === ''
+
+    if($ajout === 'oui'):
+      $titre = $_POST['titre'];
+      $anneePublication = $_POST['annee'] ?? 0000;
+      $idAuteur = $_POST['auteur'];
+      $idGenre = $_POST['genre'];
+
+      if(empty($titre) || empty($idAuteur) || empty($idGenre)): ?>
+        <p class="retour error">Veuillez au moins remplir le titre, l'auteur et le genre.</p>
+        <div class="next-step">
+          <a href="liste.php">Retourner à la liste des livres.</a>
+          <a href="ajouter.php">Réessayer d'ajouter un livre.</a>
+        </div>
+        <?php die();
+      endif;
+
+      $stmt = $pdo->prepare('INSERT INTO livres(titre, annee_publication, fk_id_auteur, fk_id_genre) VALUES(:titre, :annee, :auteur, :genre)');
+      $stmt->execute(array(
+        'titre' => $titre,
+        'annee' => $anneePublication,
+        'auteur' => $idAuteur,
+        'genre' => $idGenre
+      ));
+
+      $retour = $stmt->rowCount() > 0 ? 'Livre ajouté !' : "Erreur d'ajout !";
+    ?>
+      <p class="retour <?= $retour === 'Livre ajouté !' ? 'success' : 'error' ?>"><?= $retour ?></p>
+      <div class="next-step">
+        <a href="liste.php">Retourner à la liste des livres.</a>
+        <a href="ajouter.php">Ajouter un autre livre.</a>
+      </div>
+    <?php
+    endif; // Fin if ajout === 'oui'
+    ?>
   </main>
 
   <?php include_once('../public/footer.php'); ?>
