@@ -173,4 +173,31 @@ form {
   max-width: 500px;
   display: flex;
   justify-content: space-between;
+
+  /* Suppression */
+  .button{
+    padding: 10px 15px;
+    border: 1px solid;
+
+  }
+
+  .yes{
+    border-color: red;
+    color: red;
+
+    &:hover{
+      background: red;
+      color: white;
+    }
+  }
+
+  .no{
+    border-color: green;
+    color: green;
+
+    &:hover{
+      background: green;
+      color: white;
+    }
+  }
 }
