@@ -45,7 +45,7 @@ require_once('../config/db.php');
               <td><?= $member['prenom_membre'] ?></td>
               <td><?= $member['email'] ?></td>
               <td><?= $member['date_inscription'] ?></td>
-              <td><a href="?id=<?= $member['id_membre'] ?>&mode=edition" class="edit">Modifier</a> | <a href="?id=<?= $member['id_membre']?>&mode=suppression" class="del">Supprimer</a></td>
+              <td><a href="modifier.php?id=<?= $member['id_membre'] ?>" class="edit">Modifier</a> | <a href="supprimer.php?id=<?= $member['id_membre']?>" class="del">Supprimer</a></td>
             </tr>
           <?php endforeach; ?>
           </tbody>
